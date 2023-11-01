@@ -13,7 +13,7 @@ to the terms of the associated Analog Devices License Agreement.
  * samples from the Line Input and transmit those audio samples to the headphone
  * output (talkthrough).
  *
- * On the ADSP-BF706 EZ-KIT Mini™:
+ * On the ADSP-BF706 EZ-KIT Miniâ„¢:
  * Connect an audio source to the LINE IN jack (J1)
  * Connect headphones to the HP jack (J2).
  */
@@ -273,7 +273,7 @@ int main(void)
 	fract *inLeft;
 	fract *inRight;
 
-	fract delayInput[NUM_COEFF] = {0.0r};
+	fract delayInput[NUM_COEFF] = {0.0r}; //or SAMPLES_PER_CHAN
 	fract delayError[NUM_COEFF] = {0.0r};
 
 	fract outLeft = 0.0r;
