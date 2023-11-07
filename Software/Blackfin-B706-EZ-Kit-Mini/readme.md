@@ -2,6 +2,10 @@ Blackfin Code
 
 This section needs to explain the ide, how to download and open the talkthrough program, the fix involving adau code driver
 
+## Where to put Code
+
+algorithm goes in AudioFilterCallback code, want to know exactly what I can add or describe.
+
 ## Fix for Distortion 
 
 The below modification to be applied in "adi_adau1761.c" file located in ADSP-BF706_EZ-KIT_Mini-Rel1.1.0 board support package
