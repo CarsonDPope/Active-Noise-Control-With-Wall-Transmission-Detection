@@ -1,4 +1,3 @@
-
 /* *************************************************
  * Arduino Bluetooth Code (Laptop Side)
  * =================================================
@@ -10,17 +9,20 @@
  *           learning code to send back to Uno R4.
  * -------------------------------------------------
  * Authors: Carson Pope, Caleb Turney, Jared Vega
- * Last Updated: 11/1/2023
+ * Last Updated: 11/3/2023
  * ------------------------------------------------- 
  * =================================================
  * *************************************************/
 
 #include <ArduinoBLE.h>
+#include <CircularBuffer.h>
 
 // UUID declarations
 const char* deviceServiceUuid = "19b10000-e8f2-537e-4f6c-d104768a1214";
 const char* deviceGetCharacteristicUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
 const char* deviceSendCharacteristicUuid = "19b10002-e8f2-537e-4f6c-d104768a1214";
+char from_laptop[1000];
+CircularBuffer<byte,1000> data_send;
 
 // Data variable declarations
 byte get = -1;
@@ -86,13 +88,17 @@ void loop() {
         
           // gets value
           get = getCharacteristic.value();
-          Serial.println(get);
-          
-          send += 1; // <--- this block for debugging
-          send = send % 15 + 25;
-          
+
+          if(Serial.availableForWrite() > 0){
+            Serial.print(get);
+          }
+            
+          if(Serial.available() > 0){
+          send = Serial.read();
+          }
           // sends value
-          sendCharacteristic.writeValue((byte)send);
+          data_send.push(send);
+          sendCharacteristic.writeValue(data_send.pop());
         
         } // end Wait to get
      
