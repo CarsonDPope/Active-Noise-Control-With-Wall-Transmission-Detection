@@ -3,7 +3,12 @@
   File Name:   BLE_Test.ino
   Authors:     Carson Pope, Jared Vega, Caleb Turney
   Date:        October 31, 2023
-  Description: does something
+  Description: Connects to another device via BLE to transmit
+               one byte of information back and forth. Specifically, 
+               it connects and waits for the other device to start by
+               updating its value then replies with a byte to send. 
+               Both devices should wait to reply until the other responds,
+               creating a feedback loop.
 
 ******************************************************************************************************/
 
