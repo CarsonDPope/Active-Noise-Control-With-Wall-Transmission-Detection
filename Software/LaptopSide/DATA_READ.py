@@ -32,7 +32,9 @@ count = 0;
 
 # Generate list of ports
 portsList = []
-audio_samples = bytearray()
+# audio_samples = bytearray()
+audio_samples = np.zeros(100);
+
 audio_recieved_Arr = []
 
 for onePort in ports:
@@ -58,19 +60,24 @@ try:
     while True:
         # If the serial port is currently taking in data and until 100 new elements have been populated in array 
         if (serialInst.in_waiting > 0) and (count <= 100):
-            raw_data = serialInst.read(1)  # Read one byte
+            raw_data = serialInst.read(1)  # Read two bytes
             # Store data in audio samples
-            audio_samples.extend(raw_data)
+            
+            # audio_samples.extend((int)raw_data)
+            audio_samples[count] = int(raw_data);
+            
             # increment count
             count = count +1
-        # If port is still reading and the count is 100 write max value from array to serial port through BLE
+        # If port is still reading and the count is 100 send array to be predicted
         if (serialInst.out_waiting == 0) and (count == 100):
             outputs = model.predict(np.array(audio_samples))
             count = 0;
-            max_Val = outputs
+            # max_Val = outputs
+            max_val = 0
             for i in range(1, len(outputs)):
                 if outputs[i] > max_Val:
-                    max_Val = outputs[i]
+                    # max_Val = outputs[i]
+                    max_Val = i
                     serialInst.write(max_Val.to_bytes(1, byteorder='little'))
     
 # If a keyboard interrupt is initiated, quit and store all the data
