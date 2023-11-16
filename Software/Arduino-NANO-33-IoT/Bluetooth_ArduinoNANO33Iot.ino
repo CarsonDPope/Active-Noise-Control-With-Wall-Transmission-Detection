@@ -33,6 +33,18 @@ BLEService transactionService(deviceServiceUuid);
 BLEByteCharacteristic getCharacteristic(deviceGetCharacteristicUuid, BLERead | BLEWrite);
 BLEByteCharacteristic sendCharacteristic(deviceSendCharacteristicUuid, BLERead | BLEIndicate);
 
+// Size of the byte arrays
+int arraySize = 100;
+
+// Number of byte arrays
+int numArrays = 3;
+
+byte byteArr1 [100];
+byte byteArr2 [100];
+byte byteArr3 [100];
+int maxi = 0;
+int cycle = 0;
+
 // Begin setup()
 void setup() {
   
@@ -57,6 +69,42 @@ void setup() {
   Serial.println("Nano 33 BLE (Peripheral Device)"); 
   Serial.println(" ");
   
+  // Seed the random number generator
+  randomSeed(analogRead(0));
+
+  
+  // Fill the byte array with random numbers between 0 and 200
+  for (int i = 0; i < 100; i++) {
+    byteArr1[i] = random(201); // Generates random numbers from 0 to 200
+    byteArr2[i] = random(201); // Generates random numbers from 0 to 200
+    byteArr3[i] = random(201); // Generates random numbers from 0 to 200
+  }
+  maxi = byteArr1[0];
+    for (int i = 1; i < 100; i++) {
+        if (byteArr1[i] > maxi) {
+            maxi = byteArr1[i];
+        }
+    }
+   // Serial.print("Highest of array 1: ");
+   // Serial.println(maxi);
+
+  maxi = byteArr2[0];
+    for (int i = 1; i < 100; i++) {
+        if (byteArr1[i] > maxi) {
+            maxi = byteArr2[i];
+        }
+    }
+   // Serial.print("Highest of array 2: ");
+   // Serial.println(maxi);
+
+  maxi = byteArr3[0];
+    for (int i = 1; i < 100; i++) {
+        if (byteArr3[i] > maxi) {
+            maxi = byteArr1[i];
+        }
+    }
+  //  Serial.print("Highest of array 3: ");
+  //  Serial.println(maxi);
 } // end Setup()
 
 // Begin Loop()
@@ -89,10 +137,29 @@ void loop() {
           // gets value
           get = getCharacteristic.value();
 
-          if(Serial.availableForWrite() > 0){
-            Serial.print(get);
+          for(int i = 0; i<100; i++){
+            switch(cycle % 3){
+              case 0:
+                get = byteArr1[i];
+              break;
+              case 1:
+                get = byteArr2[i];
+              break;
+              case 2:
+                get = byteArr3[i];  
+              break;
+            }
+            if(Serial.availableForWrite() > 0){
+              Serial.print(get);
+            }
           }
-            
+            cycle++;
+
+          //if(Serial.availableForWrite() > 0){
+          //  Serial.print(get);
+          // }
+
+
           if(Serial.available() > 0){
           send = Serial.read();
           }
@@ -111,3 +178,4 @@ void loop() {
   } // end central connection
   
 } // end Loop()
+
