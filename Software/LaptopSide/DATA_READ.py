@@ -1,5 +1,5 @@
 ##/* *********************************************************************************
-## * Arduino Wifi Code (BLE side) WORK IN PROGRESS
+## * Arduino Wifi Code (BLE side) 
 ##* ==================================================================================
 ##* Function: Stores audio samples streamed from blackfin
 ##  through SPI in an array for comms, also writes the
@@ -8,7 +8,7 @@
 ##* ---------------------------------------------------------------------------------
 ##* Author: Tinker Assist: https://www.tinkerassist.com/blog/arduino-serial-port-read
 ##  Modified by: Dylan Mitchell, Carson Pope
-##* Last Updated: 11/13/2023 
+##* Last Updated: 11/27/2023 
 ##* ----------------------------------------------------------------------------------
 ##* ==================================================================================
 ##* ***************************************************/*****************************/
@@ -64,21 +64,24 @@ try:
             # Store data in audio samples
             
             # audio_samples.extend((int)raw_data)
-            audio_samples[count] = int(raw_data);
+            audio_samples[count] = int.from_bytes(raw_data, byteorder='little')
             
             # increment count
             count = count +1
         # If port is still reading and the count is 100 send array to be predicted
         if (serialInst.out_waiting == 0) and (count == 100):
-            outputs = model.predict(np.array(audio_samples))
+        #if (count >= 100):
+            outputs = model.predict((np.array(audio_samples).reshape(100,1)).transpose());
             count = 0;
             # max_Val = outputs
-            max_val = 0
-            for i in range(1, len(outputs)):
-                if outputs[i] > max_Val:
+            #max_Val = 0
+            #for i in range(1, len(outputs)):
+                #if outputs[i] > max_Val:
                     # max_Val = outputs[i]
-                    max_Val = i
-                    serialInst.write(max_Val.to_bytes(1, byteorder='little'))
+            max_Val = np.argmax(np.array(outputs),axis=None)
+            print(str(max_Val))
+            #serialInst.write(max_Val.tobytes(1, byteorder='little'))
+            serialInst.write(max_Val.tobytes('C'))
     
 # If a keyboard interrupt is initiated, quit and store all the data
 except KeyboardInterrupt:
