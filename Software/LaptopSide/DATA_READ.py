@@ -33,7 +33,6 @@ count = 0;
 
 # Generate list of ports
 portsList = []
-# audio_samples = bytearray()
 audio_samples = np.zeros(100);
 
 audio_recieved_Arr = []
@@ -60,11 +59,7 @@ try:
         # If the serial port is currently taking in data and until 100 new elements have been populated in array 
         if (serialInst.in_waiting > 0) and (count <= 100):
             raw_data = serialInst.read(1)  # Read two bytes
-            # Store data in audio samples
-            
-            # audio_samples.extend((int)raw_data)
             audio_samples[count] = int.from_bytes(raw_data, byteorder='little')
-            
             # increment count
             count = count +1
         # If port is still reading and the count is 100 send array to be predicted
