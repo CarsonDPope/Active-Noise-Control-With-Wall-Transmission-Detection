@@ -8,7 +8,7 @@
 ##* ---------------------------------------------------------------------------------
 ##* Author: Tinker Assist: https://www.tinkerassist.com/blog/arduino-serial-port-read
 ##  Modified by: Dylan Mitchell, Carson Pope
-##* Last Updated: 11/27/2023 
+##* Last Updated: 11/30/2023 
 ##* ----------------------------------------------------------------------------------
 ##* ==================================================================================
 ##* ***************************************************/*****************************/
@@ -22,6 +22,7 @@ import sys
 import tensorflow as tf
 import keras
 
+## Load trained model
 model = keras.models.load_model('Capstone.keras')
 
 # Use library to identify COM ports that are currently active on the device
@@ -53,8 +54,6 @@ for x in range(0, len(portsList)):
 # Assign serial object to the port of interest
 serialInst = serial.Serial(portVar, 9600)  # Set the appropriate baud rate
 
-##sendValue = 0
-
 try:
     # Read data from the particular port and store it in audio_samples
     while True:
@@ -70,22 +69,15 @@ try:
             count = count +1
         # If port is still reading and the count is 100 send array to be predicted
         if (serialInst.out_waiting == 0) and (count == 100):
-        #if (count >= 100):
             outputs = model.predict((np.array(audio_samples).reshape(100,1)).transpose());
             count = 0;
-            # max_Val = outputs
-            #max_Val = 0
-            #for i in range(1, len(outputs)):
-                #if outputs[i] > max_Val:
-                    # max_Val = outputs[i]
             max_Val = np.argmax(np.array(outputs),axis=None)
             print(str(max_Val))
-            #serialInst.write(max_Val.tobytes(1, byteorder='little'))
             serialInst.write(max_Val.tobytes('C'))
     
 # If a keyboard interrupt is initiated, quit and store all the data
 except KeyboardInterrupt:
-    print("Interrupt initiated, storing data!\n")
+    print("Interrupt selected, storing data!\n")
     with open('Values.txt', 'wb') as file:
         file.write(audio_samples)
     audio_recieved_Arr = audio_samples;
