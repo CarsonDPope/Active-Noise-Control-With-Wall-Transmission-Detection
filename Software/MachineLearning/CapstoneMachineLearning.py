@@ -1,13 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# ## Capstone Machine Learning Code
-
-# Import packages
-
-# In[2]:
-
-
 # Convolutional Neural Network Training, and Analysis
 # Author: Carson Pope
 # Last Updated: 12/1/2023
@@ -25,12 +15,6 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 import cv2
 
-
-# Take in input
-
-# In[3]:
-
-
 # Read in csv file (must execute broadbandGen.py first)
 InputSamples = pd.read_csv('CapstoneMachineLearningTrainingInputs.csv')
 
@@ -39,10 +23,6 @@ Outputs = InputSamples.iloc[0]
 
 
 # Define, train and fit model
-
-# In[4]:
-
-
 # Defined model
 def create_cnn(numSamples, numOutputs, filters=20, kernel_size=50, regress=False):
     
@@ -82,10 +62,6 @@ model.fit(x=X_train, y=y_train,
     validation_data=(X_test,y_test),
     epochs=25, batch_size=10)
 
-
-# In[5]:
-
-
 model.summary()
 
 model.save('Capstone.keras')  # The file needs to end with the .keras extension
@@ -110,10 +86,6 @@ print("Testing accuracy: ", test_accuracy)
 cm = confusion_matrix(y_test.argmax(axis=1),predict_class)
 print(cm)
 
-
-# In[6]:
-
-
 tf.keras.utils.plot_model(
     model,
     to_file="model.png",
@@ -126,4 +98,3 @@ tf.keras.utils.plot_model(
     layer_range=None,
     show_layer_activations=False,
 )
-
