@@ -7,3 +7,6 @@ To use this code it is recommended to run it on the Python IDLE IDE. When ran th
     -numpy
     -Pyserial
     -tensorflow
+    -sys
+    -keras
+    
