@@ -9,4 +9,6 @@ To use this code it is recommended to run it on the Python IDLE IDE. When ran th
     -tensorflow
     -sys
     -keras
+    In most cases these extensions can be installed using pip install in the command prompt, for example to install PySerial use the following command (pip install pyserial), otherwise 
+    these extensions and how to easily install them can be found online.
     
