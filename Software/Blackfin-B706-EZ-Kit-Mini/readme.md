@@ -1,10 +1,7 @@
-Blackfin Code
-
-This section needs to explain the ide, how to download and open the talkthrough program, the fix involving adau code driver
-
+## CrossCore Embedded Studio
+The [Crosscore Embedded Studio](https://www.analog.com/en/design-center/evaluation-hardware-and-software/software/adswt-cces.html) needs to be installed.
 ## Where to put Code
-
-algorithm goes in AudioFilterCallback code, want to know exactly what I can add or describe.
+Download the [ADSP-BF706_EZ-KIT_Mini-Rel1.1.0 board support package](https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/eval-bf706-mini.html#eb-documentation). Open the project AudioFilter_Callback_BF706Mini, and replace AudioCallback.c with this code. You might have to rename FilteredX_LMS.c back to AudioCallback.c. Use the [debugger](https://wiki.analog.com/resources/tools-software/sigmastudiov2/debug_using_crosscore_embedded_studio#:~:text=Select%20Run%E2%86%92Debug%20Configurations,Click%20finish.) to run the project, or use the [command line boot programmer](https://wiki.analog.com/resources/tools-software/crosscore/cces/getting-started/app).
 
 ## Fix for Distortion 
 
@@ -21,12 +18,15 @@ For the two calls of adi_sport_ConfigClock(), replace the forth parameter (true,
 
 This is from an analog devices help forum located [here](https://ez.analog.com/dsp/software-and-development-tools/cces/w/documents/16690/faq-how-to-avoid-audio-distortion-in-bf706mini-bsp-project)
 
---------
+## Functionality
+The following code programs the Blackfin BF706 EZLITE to run the filtered-X LMS algorithm. 
 
-also needs to explain which file in talkthrough program to replace with files in here
+Current functionality:
+- Runs the FXLMS algorithm
+- Allows easy switching between FIR Filters
 
-how to load on to blackfin ( especially for non debugging mode )
+Needs Improvement:
+- The way the samples are called needs to be investigated as they might not be entirely formatted correctly.
 
-also needs to explain function, version, and stuff
-
-last thing is explain algorithm
+Does Not Work:
+- No communication between Arduino and Blackfin.
