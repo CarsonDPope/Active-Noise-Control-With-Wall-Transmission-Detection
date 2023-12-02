@@ -3,7 +3,7 @@ broadbandGen.py: Creates a series of noise recordings in specified frequency ban
 
 CapstoneMachineLearning.py: Uses the data generated in 'broadbandGen.py' to train and fit a convolutional neural network. The particular architecture was designed with ease and speed and mind and can be improved upon. The trained model is then used in [DATA_READ.py](Active-Noise-Control-With-Wall-Transmission-Detection/Software/LaptopSide) and outputs which approximate filter should be used.
 
-![Neural Network Architecture](MachineLearning/Images/model.png)
+![Neural Network Architecture](Images/model.png)
 
 ## Future Work:
 The neural network could be imporved upon by changing the frequency bands that is trained such as training with overlapping bands instead of separate bands.
