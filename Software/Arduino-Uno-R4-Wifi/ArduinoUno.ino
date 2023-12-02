@@ -140,6 +140,7 @@ void controlPeripheral(BLEDevice peripheral) {
 
       // send += 2;
       // send = send % 100;
+      // For Testing, since communication with Blackfin does not work
       send = random(0,255);
 
       Serial.print("* Writing value to send characteristic: ");
